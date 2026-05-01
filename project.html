@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -30,7 +30,10 @@
         border-radius: 0.7rem;
         padding: 0.5rem 1.3rem;
         background: var(--card-bg);
-        transition: background 0.2s, color 0.2s, border 0.2s;
+        transition:
+          background 0.2s,
+          color 0.2s,
+          border 0.2s;
       }
       .project-detail-back:hover {
         background: var(--accent);
@@ -215,7 +218,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        transition: box-shadow 0.2s, border 0.2s, transform 0.2s;
+        transition:
+          box-shadow 0.2s,
+          border 0.2s,
+          transform 0.2s;
       }
       .project-detail-section:hover {
         box-shadow: 0 8px 48px #0006;
@@ -357,10 +363,31 @@
       const projects = [
         {
           id: "1",
+          title: "E.R.O",
+          img: "ero.png",
+          video: "https://www.youtube.com/embed/hG0bb5-L-WI",
+          desc: "E.R.O is an survial co-op game focused on stylised environment, gameplay feel, and collobortion. The project was developed in a team of 5 based on a live brief from Frontier Developments. My role in the group served as lead for devlopment and programming mechanics, with my focus being on the core gameplay loop and the overall game design. We were able to deliver a playable prototype within the time frame, and recieved positive feedback from the Frontier Developments team. Scoring the highest mark in the cohort. This project was a great learning experience for me, and I'm proud of the work we were able to achieve.",
+          features: [
+            "Unreal Engine development",
+            "Multiplayer co-op",
+            "Stylised environment",
+            "Survival",
+          ],
+        },
+        {
+          id: "2",
+          title: "Probably Human",
+          img: "probablyhuman.png",
+          video: null,
+          desc: "Probably Human is a VR Airport Security Simulation Game, inspired by High on life and Rick and Morty. The project was developed in a team of 4, where I served as technical design working across multiple disciplines. I was responsible for creating shaders, linking XR interaction to the game, and implementing the core gameplay loop. I was also responsible for the overall game design and modelling assets. This project taught me a lot about the importance of collaboration and communication in game development, and I'm looking forward to creating more projects with VR in the future.",
+          features: ["Unity development", "VR", "Shader", "Game design"],
+        },
+        {
+          id: "3",
           title: "PowerUp Pool",
           img: "Start Cover.png",
           video: null,
-          desc: "A new mobile pool game packed with wild power-ups and fast-paced action. Challenge your friends, Win, and see if you have what it takes to become the a pool champion! Currently in development get ready to break the rules and the rack! This is a project that I am currently working on, brought to you by Matchup Games. As a junior developer, I'm responsible for the technical design, UI integration, bug testing, audio implementation, and overall game development. The project is still in active development, more about the project coming soon!",
+          desc: "A new mobile pool game packed with wild power-ups and fast-paced action. Challenge your friends, Win, and see if you have what it takes to become the a pool champion! Currently in development get ready to break the rules and the rack! This is a project that I worked on, brought to you by Matchup Games. As a junior developer, I was responsible for the technical design, UI integration, bug testing, audio implementation, and overall game development. The project is still in active development, more about the project coming soon!",
           features: [
             "Unity development",
             "Mobile platform",
@@ -370,7 +397,7 @@
           ],
         },
         {
-          id: "2",
+          id: "4",
           title: "Korosu: The Last Stand",
           img: "tls.png",
           video: "https://www.youtube.com/embed/6Dew3JWtwhk",
@@ -383,7 +410,7 @@
           ],
         },
         {
-          id: "3",
+          id: "5",
           title: "Custom Unreal Tool",
           img: "unreal.png",
           video: "https://www.youtube.com/embed/j5hvv_9nioY",
@@ -396,7 +423,7 @@
           ],
         },
         {
-          id: "4",
+          id: "6",
           title: "Steamboat Frenzy",
           img: "arduino.jpg",
           video: "https://www.youtube.com/embed/YWlRU3ONnaQ",
@@ -409,7 +436,7 @@
           ],
         },
         {
-          id: "5",
+          id: "7",
           title: "Extraterrestrial Escape",
           img: "EECover.jpg",
           video: "https://www.youtube.com/embed/HsgzPVyRkHs",
