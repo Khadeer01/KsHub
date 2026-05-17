@@ -267,7 +267,7 @@
             style="text-decoration: none; color: inherit"
           >
             <img
-              src="unreal.png"
+              src="pht.png"
               alt="Visual Scripting System"
               style="
                 width: 100%;
@@ -296,7 +296,7 @@
                 "
               >
                 <img
-                  src="u1.png"
+                  src="ph1.png"
                   alt="Custom Unreal Tool Screenshot 1"
                   style="
                     width: 80px;
@@ -308,7 +308,7 @@
                   "
                 />
                 <img
-                  src="u2.png"
+                  src="ph2.png"
                   alt="Custom Unreal Tool Screenshot 2"
                   style="
                     width: 80px;
@@ -320,7 +320,7 @@
                   "
                 />
                 <img
-                  src="u3.png"
+                  src="ph3.png"
                   alt="Custom Unreal Tool Screenshot 3"
                   style="
                     width: 80px;
@@ -677,7 +677,7 @@
           "Start Cover.png",
         ],
         "Korosu: The Last Stand": ["k1.png", "k2.png", "k3.png"],
-        "Custom Unreal Tool": ["u1.png", "u2.png", "u3.png"],
+        "Probably Human": ["ph1.png", "ph2.png", "ph3.png"],
         "E.R.O": ["ero1.png", "ero2.png", "ero3.png"],
       };
 
@@ -704,6 +704,7 @@
             const projectCard = img.closest(".project-carousel-card");
             const projectTitle = projectCard.querySelector("h3").textContent;
             currentImages = projectGalleries[projectTitle];
+            if (!currentImages?.length) return;
 
             // Find which image was clicked
             const clickedSrc = img.src.split("/").pop();
@@ -717,7 +718,7 @@
         });
 
         function showImage(index) {
-          if (currentImages.length === 0) return;
+          if (!currentImages?.length) return;
 
           currentImageIndex = index;
           modalImage.src = currentImages[currentImageIndex];
