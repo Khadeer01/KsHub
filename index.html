@@ -545,6 +545,7 @@
           padding: 2rem;
           box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
           pointer-events: auto;
+          position: relative;
         "
       >
         <button
@@ -637,15 +638,17 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 100%;
-            padding: 0;
+            height: auto;
+            position: relative;
+            padding: 0 3.25rem;
+            box-sizing: border-box;
           "
         >
           <img
             id="modalImage"
             style="
               max-width: 100%;
-              max-height: 100%;
+              max-height: 70vh;
               object-fit: contain;
               border-radius: 0.8rem;
               box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
@@ -656,8 +659,12 @@
           id="imageCounter"
           style="
             color: white;
-            margin-top: 2rem;
+            margin-top: 0;
             font-size: 1.1rem;
+            position: absolute;
+            bottom: 0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.6);
             padding: 0.6rem 1.2rem;
             border-radius: 25px;
@@ -714,8 +721,23 @@
             // Show first image
             showImage(currentImageIndex);
             modal.style.display = "flex";
+            positionGalleryArrows();
           });
         });
+
+        function positionGalleryArrows() {
+          const modalInner = modalImage.closest("#imageModal > div");
+          if (!modalInner || !modalImage.getBoundingClientRect().height) return;
+
+          const imgRect = modalImage.getBoundingClientRect();
+          const parentRect = modalInner.getBoundingClientRect();
+          const centerY = imgRect.top + imgRect.height / 2 - parentRect.top;
+
+          [prevImage, nextImage].forEach((btn) => {
+            btn.style.top = `${centerY}px`;
+            btn.style.transform = "translateY(-50%)";
+          });
+        }
 
         function showImage(index) {
           if (!currentImages?.length) return;
@@ -727,10 +749,20 @@
           }`;
 
           // Show/hide navigation arrows
-          prevImage.style.display = currentImageIndex > 0 ? "block" : "none";
+          prevImage.style.display = currentImageIndex > 0 ? "flex" : "none";
           nextImage.style.display =
-            currentImageIndex < currentImages.length - 1 ? "block" : "none";
+            currentImageIndex < currentImages.length - 1 ? "flex" : "none";
+
+          if (modalImage.complete) {
+            positionGalleryArrows();
+          } else {
+            modalImage.onload = positionGalleryArrows;
+          }
         }
+
+        window.addEventListener("resize", () => {
+          if (modal.style.display === "flex") positionGalleryArrows();
+        });
 
         // Navigation functionality
         prevImage.addEventListener("click", function () {
@@ -790,6 +822,25 @@
       });
     </script>
     <style>
+      #imageModal #prevImage,
+      #imageModal #nextImage {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+        box-sizing: border-box !important;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif !important;
+      }
+
+      #imageModal #prevImage {
+        padding-right: 3px !important;
+      }
+
+      #imageModal #nextImage {
+        padding-left: 3px !important;
+      }
+
       @media (max-width: 600px) {
         .carousel-dots {
           display: none !important;
