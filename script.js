@@ -1,3 +1,24 @@
+// Keep the page at the top on mobile unless a hash link is used (e.g. #projects)
+(function initScrollPosition() {
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  function scrollToTopIfNoHash() {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  scrollToTopIfNoHash();
+  window.addEventListener("load", scrollToTopIfNoHash);
+  window.addEventListener("pageshow", (event) => {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  });
+})();
+
 // Animated monochrome grid for hero section with enhanced pop-out effect
 const canvas = document.getElementById("hero-canvas");
 const ctx = canvas.getContext("2d");

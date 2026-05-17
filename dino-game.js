@@ -157,7 +157,7 @@ if (dinoCanvas && dinoCtx && dinoStartText) {
     dinoRunning = true;
     dinoFirstStart = false;
     dinoStartText.style.display = "none";
-    dinoCanvas.focus();
+    dinoCanvas.focus({ preventScroll: true });
     dinoGameLoop();
   }
 
@@ -193,12 +193,11 @@ if (dinoCanvas && dinoCtx && dinoStartText) {
     }
   });
   dinoCanvas.addEventListener("click", function () {
-    dinoCanvas.focus();
+    if (isDinoGameAvailable()) {
+      dinoCanvas.focus();
+    }
   });
-  // Autofocus for keyboard on load
-  setTimeout(() => dinoCanvas.focus(), 500);
 
-  // Hide dino game on small screens or touch devices
   function isTouchDevice() {
     return (
       "ontouchstart" in window ||
@@ -206,15 +205,35 @@ if (dinoCanvas && dinoCtx && dinoStartText) {
       navigator.msMaxTouchPoints > 0
     );
   }
+
+  function isDinoGameAvailable() {
+    return window.innerWidth > 700 && !isTouchDevice();
+  }
+
   function hideDinoGameIfNeeded() {
-    if (window.innerWidth <= 700 || isTouchDevice()) {
-      dinoCanvas.classList.add("hide-dino-game");
-      dinoStartText.classList.add("hide-dino-game");
-    } else {
+    if (isDinoGameAvailable()) {
       dinoCanvas.classList.remove("hide-dino-game");
       dinoStartText.classList.remove("hide-dino-game");
+      dinoCanvas.tabIndex = 0;
+    } else {
+      dinoCanvas.classList.add("hide-dino-game");
+      dinoStartText.classList.add("hide-dino-game");
+      dinoCanvas.tabIndex = -1;
+      if (document.activeElement === dinoCanvas) {
+        dinoCanvas.blur();
+      }
     }
   }
+
   hideDinoGameIfNeeded();
   window.addEventListener("resize", hideDinoGameIfNeeded);
+
+  // Desktop only: focus canvas for keyboard play without scrolling the page
+  if (isDinoGameAvailable()) {
+    setTimeout(() => {
+      if (isDinoGameAvailable()) {
+        dinoCanvas.focus({ preventScroll: true });
+      }
+    }, 500);
+  }
 }
