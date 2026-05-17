@@ -194,7 +194,7 @@ if (dinoCanvas && dinoCtx && dinoStartText) {
   });
   dinoCanvas.addEventListener("click", function () {
     if (isDinoGameAvailable()) {
-      dinoCanvas.focus();
+      dinoCanvas.focus({ preventScroll: true });
     }
   });
 

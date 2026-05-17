@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Game Dev Portfolio | Technical Design</title>
+    <script>
+      if (!window.location.hash) {
+        if ("scrollRestoration" in history) {
+          history.scrollRestoration = "manual";
+        }
+        window.scrollTo(0, 0);
+      }
+    </script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -24,7 +32,7 @@
         <h1>Technical Design and Programming</h1>
         <div class="hero-subtitle">- Khadeer Shaik</div>
         <canvas id="hero-canvas"></canvas>
-        <canvas id="dino-canvas" tabindex="0"></canvas>
+        <canvas id="dino-canvas" tabindex="-1" aria-hidden="true"></canvas>
         <div id="dino-start-text" class="dino-start-text">
           Press Space to start
         </div>
@@ -102,6 +110,8 @@
               src="PT.mp4"
               controls
               preload="metadata"
+              playsinline
+              tabindex="-1"
               poster="PTC.png"
               class="trailer-video"
               style="
@@ -841,7 +851,7 @@
         padding-left: 3px !important;
       }
 
-      @media (max-width: 600px) {
+      @media (max-width: 900px) {
         .carousel-dots {
           display: none !important;
         }

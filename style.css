@@ -20,6 +20,13 @@ body {
   font-family: "Share Tech Mono", monospace;
   min-height: 100vh;
   letter-spacing: 0.02em;
+  overflow-anchor: none;
+}
+
+html.scroll-lock,
+html.scroll-lock body {
+  overflow: hidden;
+  height: 100%;
 }
 
 .main-header {
@@ -1488,7 +1495,7 @@ footer {
   letter-spacing: 0.01em;
   text-shadow: 0 1px 4px #0006;
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .project-carousel-container {
     display: block !important;
     position: static !important;
@@ -1562,7 +1569,7 @@ footer {
   box-shadow: 0 0 8px var(--accent);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .project-carousel-container {
     min-height: 0;
     max-width: 98vw;

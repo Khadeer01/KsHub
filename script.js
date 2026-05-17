@@ -1,22 +1,55 @@
 // Keep the page at the top on mobile unless a hash link is used (e.g. #projects)
 (function initScrollPosition() {
+  const isMobileViewport = () =>
+    window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+
   if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
   }
 
-  function scrollToTopIfNoHash() {
-    if (!window.location.hash) {
-      window.scrollTo(0, 0);
+  function shouldForceTop() {
+    return !window.location.hash;
+  }
+
+  function forceScrollTop() {
+    if (!shouldForceTop()) return;
+
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    const active = document.activeElement;
+    if (active && active !== document.body && active !== document.documentElement) {
+      active.blur();
     }
   }
 
-  scrollToTopIfNoHash();
-  window.addEventListener("load", scrollToTopIfNoHash);
-  window.addEventListener("pageshow", (event) => {
-    if (!window.location.hash) {
-      window.scrollTo(0, 0);
-    }
+  function lockScrollDuringLoad() {
+    if (!shouldForceTop() || !isMobileViewport()) return;
+    document.documentElement.classList.add("scroll-lock");
+  }
+
+  function unlockScroll() {
+    document.documentElement.classList.remove("scroll-lock");
+    forceScrollTop();
+  }
+
+  lockScrollDuringLoad();
+  forceScrollTop();
+
+  document.addEventListener("DOMContentLoaded", forceScrollTop);
+  window.addEventListener("load", unlockScroll);
+  window.addEventListener("pageshow", () => {
+    lockScrollDuringLoad();
+    forceScrollTop();
+    unlockScroll();
   });
+
+  if (shouldForceTop() && isMobileViewport()) {
+    [0, 50, 150, 400, 1000].forEach((delay) => {
+      setTimeout(forceScrollTop, delay);
+    });
+  }
 })();
 
 // Animated monochrome grid for hero section with enhanced pop-out effect
@@ -382,8 +415,22 @@ document.addEventListener("DOMContentLoaded", function () {
   let autoScrollTimer = null;
   let isInteracting = false;
 
+  function isStackedCarousel() {
+    return window.matchMedia("(max-width: 900px)").matches;
+  }
+
   function showCard(idx) {
     current = idx;
+
+    // On mobile all cards are visible; toggling .active on <a> links can
+    // make the browser scroll the page to Featured Projects on load.
+    if (isStackedCarousel()) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === idx);
+      });
+      return;
+    }
+
     cards.forEach((card, i) => {
       card.classList.toggle("active", i === idx);
     });
@@ -451,9 +498,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Start
-  showCard(0);
-  startAutoScroll();
+  // Start: desktop carousel only (mobile shows all cards stacked)
+  if (isStackedCarousel()) {
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === 0));
+    cards.forEach((card) => card.classList.remove("active"));
+  } else {
+    showCard(0);
+    startAutoScroll();
+  }
+
+  window.addEventListener("resize", () => {
+    if (isStackedCarousel()) {
+      if (autoScrollTimer) clearInterval(autoScrollTimer);
+      cards.forEach((card) => card.classList.remove("active"));
+    }
+  });
 })();
 
 // Typewriter Terminal Animation
